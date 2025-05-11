@@ -1,0 +1,19 @@
+Package: SSVD
+Type: Package
+Title: This package applies stability selection with Lasso to data after decorrelating variables.
+Version: 0.0.1
+Authors: Mahdi Nouraie
+Maintainer: <mahdinouraie20@gmail.com>
+Description: This package applies stability selection with Lasso to data after decorrelating variables.
+License: MIT + file LICENSE.txt
+Imports: glmnet, cmna
+Encoding: UTF-8
+URL: https://github.com/MahdiNouraie/variable-decorrelation
+BugReports: https://github.com/MahdiNouraie/variable-decorrelation/issues
+LazyData: true
+RoxygenNote: 7.3.2
+
+
+
+
+
