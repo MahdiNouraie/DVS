@@ -1,6 +1,6 @@
-Package: SSVD
+Package: DVS
 Type: Package
-Title: This package applies stability selection with Lasso to data after decorrelating variables.
+Title: This package applies stability selection with Lasso to data after decorrelating variables to identify impoerant variables.
 Version: 0.0.1
 Authors: Mahdi Nouraie
 Maintainer: <mahdinouraie20@gmail.com>

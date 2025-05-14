@@ -1,11 +1,45 @@
 #' @docType package
 #' @name DVS
-#' @title DVS: Decorrelation for Variable selection
+#' @title DVS: Decorrelation for Variable Selection
 #' @description
 #' This package contains a main function: `DVS`.
-#' The `DVS` function first decorrelates variables and then applies stability selection to find important variables.
-#' @usage Regustab(x, y, B)
+#' The `DVS` function first decorrelates variables and then applies stability selection with Lasso to find important variables.
+#' The function prints `lambda.stable` and its associated stability value, along with variables whose selection frequencies exceed 0.5 and their corresponding frequencies. If `lambda.stable` is not attainable, the function uses `lambda.stable.1sd` instead.
+#'
 #' @author Mahdi Nouraie (mahdinouraie20@gmail.com)
+#'
+#' @import glmnet
+#' @import latex2exp
+#' @usage DVS(x, y, B)
+#' @param x A numeric matrix of predictors.
+#' @param y A numeric vector of response values.
+#' @param B An integer specifying the number of sub-samples.
+#'
+#' @return `lambda.stable` and its associated stability value, along with variables whose selection frequencies exceed 0.5 and their corresponding frequencies. If `lambda.stable` is not attainable, the function uses `lambda.stable.1sd` instead.
+#' @examples
+#' \dontrun{
+#' set.seed(123)
+#' x <- matrix(rnorm(1000), ncol = 10)
+#' colnames(x) <- paste0("X", 1:10) # assign column names
+#' # create beta based on the first 3 columns of x and some error
+#' beta <- c(1, 2, 3, rep(0, 7))
+#' y <- x %*% beta + rnorm(100)
+#' B <- 10
+#' DVS(x, y, B)  # Example usage of the Regustab function
+#' #output
+#'$lambda.stable
+#'[1] 0.2798887
+
+#'$stability
+#'[1] 0.7781636
+
+#'Variable Selection_Frequency
+#'1      X 3                   1
+#'2      X 2                   1
+#'3      X 1                   1
+#'
+#'}
+#'
 #' @references
 #' Joudah, I., Muller, S., & Zhu, H. (2025). Air-HOLP: adaptive regularized feature screening for high dimensional correlated data. Statistics and Computing, 35(3), 63.
 #'
@@ -17,9 +51,7 @@
 #'
 #' Tibshirani, R. (1996). Regression shrinkage and selection via the lasso. Journal of the Royal Statistical Society Series B: Statistical Methodology, 58(1), 267-288.
 #'
-#' @seealso \link[=DVS]{DVS}
-
-
+#' @export
 
 
 # Stability measure (2018) from "https://github.com/nogueirs/JMLR2018/blob/master/R/getStability.R"
@@ -55,6 +87,7 @@ getStability <- function(X,alpha=0.05) {
   return(list("stability"=stability,"variance"=var_stab,"lower"=lower,"upper"=upper))
 
 }
+
 
 # AirHOLP (2025) from "https://github.com/Logic314/Air-HOLP"
 AirHOLP <- function(X, y, Threshold, r0 = 10, adapt = TRUE,
@@ -229,52 +262,6 @@ grahm_schimdtR <- function(A) {
 }
 
 
-
-#' DVS
-#'
-#' This function performs stability selection with Lasso after decorrelating predictor variables.
-#' The function prints `lambda.stable` and its associated stability value, along with variables whose selection frequencies exceed 0.5 and their corresponding frequencies. If `lambda.stable` is not available, the function uses `lambda.stable.1sd` instead.
-#'
-#' @import glmnet
-#' @import latex2exp
-#' @param x A numeric matrix of predictors.
-#' @param y A numeric vector of response values.
-#' @param B An integer specifying the number of sub-samples.
-#'
-#' @return `lambda.stable` and its associated stability value, along with variables whose selection frequencies exceed 0.5 and their corresponding frequencies. If `lambda.stable` is not available, the function uses `lambda.stable.1sd` instead.
-#' @examples
-#' \dontrun{
-#' set.seed(123)
-#' x <- matrix(rnorm(1000), ncol = 10)
-#' # create beta based on the first 3 columns of x and some error
-#' beta <- c(1, 2, 3, rep(0, 7))
-#' y <- x %*% beta + rnorm(100)
-#' B <- 10
-#' Regustab(x, y, B)  # Example usage of the Regustab function
-#' #output
-#' $min
-#' [1] 0.07609021
-#' $`1se`
-#' [1] 0.2550241
-#' $stable
-#' [1] 0.3371269
-#'
-#'}
-#'
-#' @references
-#' Joudah, I., Muller, S., & Zhu, H. (2025). Air-HOLP: adaptive regularized feature screening for high dimensional correlated data. Statistics and Computing, 35(3), 63.
-#'
-#' Nouraie, M., & Muller, S. (2024). On the Selection Stability of Stability Selection and Its Applications. arXiv preprint arXiv:2411.09097.
-#'
-#' Nogueira, S., Sechidis, K., & Brown, G. (2018). On the stability of feature selection algorithms. Journal of Machine Learning Research, 18(174), 1-54.
-#'
-#' Meinshausen, N., & Bühlmann, P. (2010). Stability selection. Journal of the Royal Statistical Society Series B: Statistical Methodology, 72(4), 417-473.
-#'
-#' Tibshirani, R. (1996). Regression shrinkage and selection via the lasso. Journal of the Royal Statistical Society Series B: Statistical Methodology, 58(1), 267-288.
-#'
-#' @export
-
-
 DVS <- function(x, y, B){
   options(warn = -1) # Suppress warnings
   required_packages <- c("glmnet", "cmna")
@@ -339,10 +326,12 @@ DVS <- function(x, y, B){
     lambda_stable <- min(candidate_set[stable_values]) # Minimum stable lambda value
     index_of_lambda_stable <- which(candidate_set == lambda_stable) # Index of lambda_stable
     phi_stable <- stab_values[index_of_lambda_stable] # Stability value for lambda_stable
+    print(list('lambda.stable' = lambda_stable, 'stability' = as.numeric(phi_stable)))
+
+
     Stable_S <- S_list[[index_of_lambda_stable]] # Stable selection matrix for lambda_stable
     col_means <- colMeans(Stable_S)
     selected_cols <- col_means[col_means > 0.5] # Select columns with mean > 0.5
-    print(list('lambda.stable' = lambda_stable, 'stability' = as.numeric(phi_stable)))
     selected_df <- data.frame(
       Variable = names(selected_cols),
       Selection_Frequency = as.numeric(selected_cols),
@@ -356,10 +345,12 @@ DVS <- function(x, y, B){
     index_of_stable_1sd <- max(which(stab_values >= stability_1sd_threshold), na.rm = TRUE) # since candidate values are sorted decreasingly, we use max index
     lambda_stable_1sd <- candidate_set[index_of_stable_1sd] # Find the corresponding lambda value
     phi_stable_1sd <- stab_values[index_of_stable_1sd] # Find the corresponding stability value
+    print(list('lambda.stable.1sd' = lambda_stable_1sd, 'stability' =  as.numeric(phi_stable_1sd)))
+
+
     Stable_S_1sd <- S_list[[index_of_stable_1sd]] # Find the corresponding selection matrix
     col_means_1sd <- colMeans(Stable_S_1sd)
     selected_cols_1sd <- col_means_1sd[col_means_1sd > 0.5] # Select columns with mean > 0.5
-    print(list('lambda.stable.1sd' = lambda_stable_1sd, 'stability' =  as.numeric(phi_stable_1sd)))
     selected_df <- data.frame(
       Variable = names(selected_cols_1sd),
       Selection_Frequency = as.numeric(selected_cols_1sd),
