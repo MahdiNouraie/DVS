@@ -1,9 +1,9 @@
 #' @docType package
-#' @name SSVD
-#' @title SSVD: Stability Selection via Variable Decorrelation
+#' @name DVS
+#' @title DVS: Decorrelation for Variable selection
 #' @description
-#' This package contains a main function: `ssvd`.
-#' The `ssvd` function first decorrelates variables and then applies stability selection to find important variables.
+#' This package contains a main function: `DVS`.
+#' The `DVS` function first decorrelates variables and then applies stability selection to find important variables.
 #' @usage Regustab(x, y, B)
 #' @author Mahdi Nouraie (mahdinouraie20@gmail.com)
 #' @references
@@ -17,7 +17,7 @@
 #'
 #' Tibshirani, R. (1996). Regression shrinkage and selection via the lasso. Journal of the Royal Statistical Society Series B: Statistical Methodology, 58(1), 267-288.
 #'
-#' @seealso \link[=ssvd]{ssvd}
+#' @seealso \link[=DVS]{DVS}
 
 
 
@@ -230,7 +230,7 @@ grahm_schimdtR <- function(A) {
 
 
 
-#' ssvd
+#' DVS
 #'
 #' This function performs stability selection with Lasso after decorrelating predictor variables.
 #' The function prints `lambda.stable` and its associated stability value, along with variables whose selection frequencies exceed 0.5 and their corresponding frequencies. If `lambda.stable` is not available, the function uses `lambda.stable.1sd` instead.
@@ -275,7 +275,7 @@ grahm_schimdtR <- function(A) {
 #' @export
 
 
-ssvd <- function(x, y, B){
+DVS <- function(x, y, B){
   options(warn = -1) # Suppress warnings
   required_packages <- c("glmnet", "cmna")
   for (pkg in required_packages) {
