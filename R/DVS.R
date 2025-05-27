@@ -3,7 +3,7 @@
 #' @title DVS: Decorrelation for Variable Selection
 #' @description
 #' This package contains a main function: `DVS`.
-#' The `DVS` function first decorrelates variables and then applies stability selection with Lasso to find important variables.
+#' The `DVS` function first decorrelates variables and then applies stability selection with Lasso to find relevant variables.
 #' The function prints `lambda.stable` and its associated stability value, along with variables whose selection frequencies exceed 0.5 and their corresponding frequencies. If `lambda.stable` is not attainable, the function uses `lambda.stable.1sd` instead.
 #'
 #' @author Mahdi Nouraie (mahdinouraie20@gmail.com)
@@ -13,32 +13,30 @@
 #' @usage DVS(x, y, B)
 #' @param x A numeric matrix of predictors.
 #' @param y A numeric vector of response values.
-#' @param B An integer specifying the number of sub-samples.
+#' @param B An integer specifying the number of sub-samples in the stability selection.
 #'
 #' @return `lambda.stable` and its associated stability value, along with variables whose selection frequencies exceed 0.5 and their corresponding frequencies. If `lambda.stable` is not attainable, the function uses `lambda.stable.1sd` instead.
 #' @examples
-#' \dontrun{
 #' set.seed(123)
-#' x <- matrix(rnorm(1000), ncol = 10)
-#' colnames(x) <- paste0("X", 1:10) # assign column names
-#' # create beta based on the first 3 columns of x and some error
-#' beta <- c(1, 2, 3, rep(0, 7))
-#' y <- x %*% beta + rnorm(100)
-#' B <- 10
-#' DVS(x, y, B)  # Example usage of the Regustab function
+#' n <- 100 # Number of observations
+#' rho <- 0.8 # Correlation coefficient for the predictors
+#' x1 <- matrix(rnorm(n * 3), ncol = 3) # First 3 independent predictors
+#' x2 <- rho * x1[, rep(1:3, length.out = 7)] + sqrt(1 - rho^2) * matrix(rnorm(n * 7), ncol = 7) # Make next 7 predictors correlated with x1
+#' x <- cbind(x1, x2) # Combine independent and correlated predictors
+#' colnames(x) <- paste0("X", 1:10) # Assign column names
+#' beta <- c(1, 2, 3, rep(0, 7)) # Create regression coefficients vector
+#' y <- x %*% beta + rnorm(n) # Generate response variable with some noise
+#' B <- 10 # Number of sub-samples for stability selection
+#' DVS(x, y, B)  # Example usage of the DVS function
 #' #output
 #'$lambda.stable
 #'[1] 0.2798887
-
 #'$stability
 #'[1] 0.7781636
-
 #'Variable Selection_Frequency
-#'1      X 3                   1
-#'2      X 2                   1
-#'3      X 1                   1
-#'
-#'}
+#'1       X3                   1
+#'2       X2                   1
+#'3       X1                   1
 #'
 #' @references
 #' Joudah, I., Muller, S., & Zhu, H. (2025). Air-HOLP: adaptive regularized feature screening for high dimensional correlated data. Statistics and Computing, 35(3), 63.
@@ -268,10 +266,9 @@ DVS <- function(x, y, B){
   for (pkg in required_packages) {
     if (!requireNamespace(pkg)) {
       install.packages(pkg)
+      library(pkg)
     }
   }
-  library(glmnet)
-  library(cmna)
 
   x <- scale(x)  # Standardize the predictors
   y <- scale(y, scale = FALSE) # Center the response
@@ -359,11 +356,3 @@ DVS <- function(x, y, B){
     print(selected_df)
 }
 }
-
-
-
-
-
-
-
-
