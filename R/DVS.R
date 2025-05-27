@@ -269,7 +269,7 @@ DVS <- function(x, y, B){
     }
   }
   library(glmnet)
-  library(cmna)
+  #library(cmna)
   attachNamespace("cmna")
 
   x <- scale(x)  # Standardize the predictors
