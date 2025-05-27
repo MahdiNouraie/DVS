@@ -16,7 +16,21 @@ The methodology is based on the paper:
 
 DVS depends on the R packages `glmnet` and `cmna`, which will be automatically installed when you install `DVS`.
 
-Then, source or load the `DVS` function from the package.
+You can install and load the `DVS` package using the following commands in R:
+
+```r
+# Install 'devtools' if not already installed
+if (!require("devtools")) {
+  install.packages("devtools")
+}
+
+# Install the DVS package from GitHub
+devtools::install_github("MahdiNouraie/DVS")
+
+# Load the package
+library(DVS)
+```
+
 
 ## Acknowledgements
 
