@@ -1,6 +1,6 @@
 # DVS: Decorrelation for Variable Selection
 
-**DVS** is an R package designed for stable variable selection using Lasso within the stability selection framework. The key innovation of this package is its use of **decorrelation preprocessing** to improve the consistency and reliability of variable selection, particularly in the presence of correlated predictors.
+**DVS** is an R package designed for stable variable selection in the presence of correlated predictors using Lasso within the stability selection framework.
 
 The methodology is based on the paper:  
 **"Stability Selection via Variable Decorrelation" (2025) — Nouraie et al.**
