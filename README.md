@@ -13,21 +13,14 @@ The methodology is based on the paper:
 
 ## Installation
 
-DVS requires the following R packages:
-- [`glmnet`](https://cran.r-project.org/package=glmnet)
-- [`cmna`](https://cran.r-project.org/package=cmna)
 
-You can install them via:
-
-```r
-install.packages(c("glmnet", "cmna"))
-```
+DVS depends on the R packages `glmnet` and `cmna`, which will be automatically installed when you install `DVS`.
 
 Then, source or load the `DVS` function from the package.
 
 ## Acknowledgements
 
-DVS includes adapted code from the following sources, which are appropriately cited in the code with comments:
+`DVS` includes adapted code from the following sources, which are appropriately cited in the code with comments:
 - [JMLR2018 Supplementary Code](https://github.com/nogueirs/JMLR2018)
 - [Air-HOLP Repository](https://github.com/Logic314/Air-HOLP)
 - [StackOverflow – Gram-Schmidt in R](https://stackoverflow.com/questions/15584221/gram-schmidt-with-r)
