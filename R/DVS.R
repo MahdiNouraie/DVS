@@ -270,6 +270,8 @@ DVS <- function(x, y, B){
   }
   library(glmnet)
   library(cmna)
+  attachNamespace("cmna")
+
   x <- scale(x)  # Standardize the predictors
   y <- scale(y, scale = FALSE) # Center the response
   p <- ncol(x) # Number of predictors
