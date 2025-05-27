@@ -266,10 +266,10 @@ DVS <- function(x, y, B){
   for (pkg in required_packages) {
     if (!requireNamespace(pkg)) {
       install.packages(pkg)
-      library(pkg)
     }
   }
-
+  library(glmnet)
+  library(cmna)
   x <- scale(x)  # Standardize the predictors
   y <- scale(y, scale = FALSE) # Center the response
   p <- ncol(x) # Number of predictors
