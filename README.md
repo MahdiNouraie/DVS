@@ -31,14 +31,6 @@ devtools::install_github("MahdiNouraie/DVS")
 library(DVS)
 ```
 
-
-## Acknowledgements
-
-`DVS` includes adapted code from the following sources, which are appropriately cited in the code with comments:
-- [JMLR2018 Supplementary Code](https://github.com/nogueirs/JMLR2018)
-- [Air-HOLP Repository](https://github.com/Logic314/Air-HOLP)
-- [StackOverflow – Gram-Schmidt in R](https://stackoverflow.com/questions/15584221/gram-schmidt-with-r)
-
 ## Example Usage
 
 ```r
@@ -77,6 +69,13 @@ $Variable_Selection_Frequency
 2       X2         1
 3       X1         1
 ```
+
+## Acknowledgements
+
+`DVS` includes adapted code from the following sources, which are appropriately cited in the code with comments:
+- [JMLR2018 Supplementary Code](https://github.com/nogueirs/JMLR2018)
+- [Air-HOLP Repository](https://github.com/Logic314/Air-HOLP)
+- [StackOverflow – Gram-Schmidt in R](https://stackoverflow.com/questions/15584221/gram-schmidt-with-r)
 
 ## License
 
