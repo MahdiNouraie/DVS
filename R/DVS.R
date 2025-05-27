@@ -237,7 +237,7 @@ AirHOLP <- function(X, y, Threshold, r0 = 10, adapt = TRUE,
   }
 }
 
-# Grahm-Schmidt QR decomposition from https://stackoverflow.com/questions/15584221/gram-schmidt-with-r
+# Grahm-Schmidt QR decomposition from "https://stackoverflow.com/questions/15584221/gram-schmidt-with-r"
 grahm_schimdtR <- function(A) {
   m <- nrow(A)
   n <- ncol(A)
