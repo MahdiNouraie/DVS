@@ -41,6 +41,8 @@
 
 
 #' @references
+#' Nouraie, M., Smith, C. & Muller, S. (2026). Stability selection via variable decorrelation. Statistics and Computing 36, 160.
+#'
 #' Joudah, I., Muller, S., & Zhu, H. (2025). Air-HOLP: adaptive regularized feature screening for high dimensional correlated data. Statistics and Computing, 35(3), 63.
 #'
 #' Nouraie, M., & Muller, S. (2024). On the Selection Stability of Stability Selection and Its Applications. arXiv preprint arXiv:2411.09097.
