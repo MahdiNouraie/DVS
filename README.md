@@ -27,12 +27,17 @@ You can install and load the `DVS` package using the following commands
 in R:
 
 ``` r
+# Install the DVS package from CRAN
+install.packages("DVS")
+
+
+# Or install the DVS package from GitHub
+
 # Install 'devtools' if not already installed
 if (!require("devtools")) {
   install.packages("devtools")
 }
 
-# Install the DVS package from GitHub
 devtools::install_github("MahdiNouraie/DVS")
 
 # Load the package
