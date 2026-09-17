@@ -1,6 +1,6 @@
 DVS: Decorrelation for Variable Selection
 ================
-<img src="man/logo.png" align="right" height="210" alt="" />
+<img src="man/logo.png" align="right" height="200" alt="" />
 
 
 **DVS** is an R package designed for stable variable selection in the
